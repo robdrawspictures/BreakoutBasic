@@ -7,13 +7,13 @@
     <title>Breakout</title>
     <style>
         * { padding: 0; margin: 0; }
-        canvas { background: rgb(56, 56, 56); display: block; margin: 0 auto; }
+        canvas { background: rgb(0, 56, 56); display: block; margin: 0 auto; }
     </style>
 </head>
 
 <body>
 
-    <canvas id="myCanvas" width="480" height="320"></canvas>
+    <canvas id="myCanvas" width="800" height="500"></canvas>
 
     <script>
         var canvas = document.getElementById("myCanvas");
@@ -22,8 +22,8 @@
         var x = canvas.width/2;
         var y = canvas.height-30;
 
-        var dx = 2;
-        var dy = -2;
+        var dx = 4;
+        var dy = -4;
 
         var ballRadius = 10;
 
@@ -34,12 +34,12 @@
         var rightPressed = false;
         var leftPressed = false;
 
-        var brickRowCount = 5;
-        var brickColumnCount = 7;
-        var brickWidth = 50;
+        var brickRowCount = 10;
+        var brickColumnCount = 15;
+        var brickWidth = 40;
         var brickHeight = 10;
         var brickPadding = 10;
-        var brickOffsetTop = 30;
+        var brickOffsetTop = 40;
         var brickOffsetLeft = 30;
 
         var bricks = [];
@@ -95,8 +95,7 @@
             drawScore();
             drawLives();
             collisionDetection();
-            x += dx;
-            y += dy;
+           
 
             if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
                 dx = -dx;
@@ -115,8 +114,8 @@
                     } else {
                         x = canvas.width/2;
                         y = canvas.height-30;
-                        dx = 2;
-                        dy = -2;
+                        dx = 4;
+                        dy = -4;
                         paddleX = (canvas.width-paddleWidth)/2;
                     }
                 }
@@ -133,6 +132,10 @@
                     paddleX = 0;
                 }
             }
+
+            x += dx;
+            y += dy;
+            requestAnimationFrame(draw);
 
         }
 
@@ -169,11 +172,11 @@
             for(var c=0; c<brickColumnCount; c++) {
                 for(var r=0; r<brickRowCount; r++) {
                     var b = bricks[c][r];
-                    if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+                    if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight && b.status == 1) {
                         dy = -dy;
                         b.status = 0;
                         score++;
-                        if(score == brickRowCount*brickColumnCount+150) {
+                        if(score == brickRowCount*brickColumnCount) {
                             alert("A WINNER IS YOU!");
                             document.location.reload();
                         }
@@ -195,7 +198,7 @@
         }
 
         draw();
-        requestAnimationFrame(draw);
+        
     </script>
 
 </body>
